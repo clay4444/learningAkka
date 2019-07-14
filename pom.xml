@@ -13,6 +13,7 @@
         <module>RemoteLocal</module>
         <module>FaultTolerance</module>
         <module>SlickDB</module>
+        <module>Cluster</module>
     </modules>
 
     <properties>
@@ -36,6 +37,30 @@
             <artifactId>akka-remote_${scala.major.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.twitter/chill-akka -->
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>chill-akka_${scala.major.version}</artifactId>
+            <version>0.8.4</version>
+        </dependency>
+
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.major.version}</artifactId>
+            <version>3.0.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-testkit_${scala.major.version}</artifactId>
+            <version>${akka.version}</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- config -->
         <dependency>

@@ -3,6 +3,7 @@ package org.clay.AkkaTest
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
+import akka.pattern.ask
 
 import scala.concurrent.duration._
 
@@ -12,12 +13,18 @@ object LocalActorTest extends App {
   val localActor = system.actorOf(Props[LocalActor],name = "LocalActor")
 
   localActor ! Init
-  localActor ! SendNoReturn
+  //localActor ! SendNoReturn
+  //localActor ! SendHasReturn
+  localActor ! SendSerialization
 
 }
 
 case object Init
 case object SendNoReturn
+case object SendHasReturn
+case object SendSerialization
+
+case class JoinEvt(id:Long,name:String)
 
 class LocalActor extends Actor{
 
@@ -27,8 +34,19 @@ class LocalActor extends Actor{
   //获取ActorSelection对象，要获取ActorRef，只需要调用resolveOne() 方法
   val remoteActor = context.actorSelection(path)
 
+  implicit val executionContext = context.dispatcher
+
   override def receive: Receive = {
     case Init => "init local actor"
     case SendNoReturn => remoteActor ! "hello remote actor"
+    case SendHasReturn =>
+      for(
+        r <- remoteActor.ask("hello remote actor")
+      ) yield println(r)
+
+    case SendSerialization =>
+      for(
+        r <- remoteActor.ask(JoinEvt(1L,"clay"))
+      ) yield println(r)
   }
 }
