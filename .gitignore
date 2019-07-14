@@ -3,6 +3,6 @@
 *.class
 *.log
 
-learningAkka.iml
+*.iml
 .idea/
 target/
