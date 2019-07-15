@@ -36,6 +36,9 @@ class TransformationBackend extends Actor{
     implicit val timeout = Timeout(3 seconds)
     implicit val executionContext = context.dispatcher
 
+    /**
+      * 注意：member.address / user / frontend 只有当member是client的时候，这个路径才有对应的actor，member是backend的时候，是没有对应的actor的。
+      */
     //println(s"=====> actorSelection's ref is ${actorSelection.resolveOne()}")
     actorSelection.resolveOne().onComplete{
       case Success(value) =>
