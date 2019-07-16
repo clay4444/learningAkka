@@ -11,5 +11,31 @@
 
     <artifactId>SlickDB</artifactId>
 
+    <properties>
+        <scala.version>${scala.major.version}.${scala.minor.version}</scala.version>
+        <akka.version>2.5.9</akka.version>
+        <slick.version>3.2.3</slick.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.44</version>
+        </dependency>
+
+        <!-- slick -->
+        <dependency>
+            <groupId>com.typesafe.slick</groupId>
+            <artifactId>slick_${scala.major.version}</artifactId>
+            <version>${slick.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.slick</groupId>
+            <artifactId>slick-hikaricp_${scala.major.version}</artifactId>
+            <version>${slick.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
