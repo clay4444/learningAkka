@@ -1,3 +1,5 @@
+package org.clay.message
+
 
 
 object Registration extends Serializable

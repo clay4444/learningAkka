@@ -1,6 +1,9 @@
+package org.clay
+
 import akka.actor.{Actor, ActorLogging, ActorPath, ActorRef}
-import akka.cluster.{Cluster, Member}
 import akka.cluster.ClusterEvent.{InitialStateAsEvents, MemberEvent, MemberUp, UnreachableMember}
+import akka.cluster.{Cluster, Member}
+import org.clay.message.Registration
 
 abstract class ClusterRoledWorker extends Actor with ActorLogging{
 
