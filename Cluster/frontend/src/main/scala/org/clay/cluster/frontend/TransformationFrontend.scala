@@ -1,6 +1,6 @@
 package org.clay.cluster.frontend
 
-import akka.actor.{Actor, ActorRef, Terminated}
+import akka.actor.{Actor, ActorRef, ExtendedActorSystem, Terminated}
 import akka.util.Timeout
 import org.clay.cluster.message.{BackendRegistration, JobFailed, TransformationJob, TransformationResult}
 
@@ -17,6 +17,12 @@ class TransformationFrontend extends Actor{
       sender() ! JobFailed("Service unavailable, try again later",job)
 
     case job:TransformationJob => //执行相应任务
+
+      val selfAddress = context.system.asInstanceOf[ExtendedActorSystem].provider.getDefaultAddress
+      println(s"######${self.path}")     //  akka://ClusterSystem/user/frontend
+      //akka.tcp://ClusterSystem@127.0.0.1:2551
+      println(s"******${selfAddress}")
+      println(s"******${self.path.toStringWithAddress(selfAddress)}")  //akka.tcp://ClusterSystem@127.0.0.1:2551/user/frontend
       jobCounter += 1
       implicit val timeout = Timeout(5 seconds)
       implicit val executionContext = context.dispatcher
