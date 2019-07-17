@@ -14,6 +14,7 @@
         <module>FaultTolerance</module>
         <module>SlickDB</module>
         <module>Cluster</module>
+        <module>LogCluster</module>
     </modules>
 
     <properties>
