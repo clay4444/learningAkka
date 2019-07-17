@@ -1,4 +1,4 @@
-import akka.actor.{Actor, ActorLogging, ActorRef}
+import akka.actor.{Actor, ActorLogging, ActorPath, ActorRef}
 import akka.cluster.{Cluster, Member}
 import akka.cluster.ClusterEvent.{InitialStateAsEvents, MemberEvent, MemberUp, UnreachableMember}
 
@@ -20,7 +20,13 @@ abstract class ClusterRoledWorker extends Actor with ActorLogging{
     cluster.subscribe(self)
   }
 
-  def register(member:Member,): Unit ={
-
+  /**
+    * 下游子系统节点发送注册消息
+    */
+  def register(member:Member,createPath: (Member) => ActorPath ): Unit ={
+    val actorPath = createPath(member)
+    log.info("Actor Path: " + actorPath)
+    val actorSelection = context.actorSelection(actorPath)
+    actorSelection ! Registration
   }
 }
