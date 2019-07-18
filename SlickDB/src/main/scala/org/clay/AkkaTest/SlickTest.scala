@@ -22,7 +22,7 @@ object SlickDB{
     def * = (id,name,age) <> (UserInfo.tupled, UserInfo.unapply)
   }
 
-  def slick_table = TableQuery[SlickModelTable]
+  def slick_table = TableQuery(tag => new SlickModelTable(tag))
 }
 
 import SlickDB._
