@@ -1,7 +1,9 @@
 package org.clay.AkkaTest
 
 import com.typesafe.config.ConfigFactory
+import slick.jdbc.GetResult
 import slick.jdbc.MySQLProfile.api._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -12,6 +14,8 @@ object SlickDB{
 
   // table name: scala_model
   case class UserInfo(id: Long, name: String, age: Int)
+
+  implicit val getAssembledObjectResult = GetResult(r => UserInfo(r.nextLong(), r.nextString(),r.nextInt()))
 
   class SlickModelTable(tag: Tag) extends Table[UserInfo](tag,"scala_model"){
 
@@ -92,7 +96,7 @@ object SlickTest extends App {
   // ---- use sql
 
   // query sql
-  val res6 = Await.result(db.run(sql"""select * from scala_model where name = 'peper'""".as[(Long, String, Int)]),Duration.Inf)
+  val res6 = Await.result(db.run(sql"""select id,name,age from scala_model""".as[UserInfo]),Duration.Inf)   //def as[R](implicit rconv: GetResult[R])
   println(s"res6: ${res6}")
 
   // insert sql
