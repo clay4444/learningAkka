@@ -66,11 +66,14 @@ object SlickTest extends App {
 
   // query by condition
   val res2 = Await.result(db.run(slick_table.filter(_.age > 20).result), Duration.Inf)
-  println(res2)
+  println(s"res2: ${res2}")
 
   // add（only 1 record)
   /*val user1 = UserInfo(6L, "scarllet", 19)
-  val res3 = Await.result(db.run(slick_table += user1), Duration.Inf)*/ // return the insert numbers: 1, so no need to return
+  val res3 = Await.result(db.run(slick_table += user1), Duration.Inf) // return the insert numbers: 1, so no need to return
+
+  println(s"res3: ${res3}")  //影响的行数，1*/
+
 
   // add(batch records)
   /*val user1 = UserInfo(6L, "scarllet", 19)
@@ -86,12 +89,23 @@ object SlickTest extends App {
   val res5 = Await.result(db.run(slick_table.filter(_.name === "tony").delete), Duration.Inf)
 
 
-  // return main column after insert
+  // 设置插入之后要返回的列
   val user = UserInfo(0, "ethan", 21)
-  val save_sql = (slick_table returning slick_table.map(_.id)) += user
+  val save_sql = (slick_table returning slick_table.map(_.id)) += UserInfo(0, "ethan", 21)
   val user_id = Await.result(db.run(save_sql), Duration.Inf) // return created id(新插入的值的id)
   println(s"user_id: ${user_id}")
 
+
+  //into
+  val userWithId =
+    (slick_table returning slick_table.map(_.id)
+      //into:Specifies a mapping from inserted values and generated keys to a desired value.
+      into ((user,newId) => user.copy(id=newId)  //为插入的值和return返回的值 到 我们想要的值之间做一个映射（我们这里想返回一个完整的UserInfo）
+      ) += UserInfo(2, "update",0))  //这里 id 没用，
+
+  //和上一个rerurn的区别是上面只返回了user_id，这里返回了一个完整的UserInfo
+  val userWithIdRes = Await.result(db.run(userWithId), Duration.Inf)
+  println(s"userWithIdRes: ${userWithIdRes}")
 
   // ---- use sql
 
@@ -114,5 +128,4 @@ object SlickTest extends App {
   // delete sql
   val res9 = Await.result(db.run(sqlu"""delete from scala_model where name='ethan'"""), Duration.Inf)
   println(s"res9: ${res9}")   //删除的数量
-
 }
