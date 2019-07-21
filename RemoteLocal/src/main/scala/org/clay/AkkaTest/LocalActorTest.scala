@@ -13,9 +13,9 @@ object LocalActorTest extends App {
   val localActor = system.actorOf(Props[LocalActor],name = "LocalActor")
 
   localActor ! Init
-  //localActor ! SendNoReturn
+  localActor ! SendNoReturn
   //localActor ! SendHasReturn
-  localActor ! SendSerialization
+  //localActor ! SendSerialization
 
 }
 
@@ -35,6 +35,14 @@ class LocalActor extends Actor{
   val remoteActor = context.actorSelection(path)
 
   implicit val executionContext = context.dispatcher
+
+  override def aroundReceive(receive: Receive, msg: Any): Unit = {
+    println(s"调用aroundReceive方法，msg is: ${msg}")
+
+    val new_message = SendHasReturn //全部转换成SendHasReturn消息，生效，也就是说这个方法在receive方法之前，可以进行拦截
+
+    super.aroundReceive(receive, new_message)
+  }
 
   override def receive: Receive = {
     case Init => "init local actor"
