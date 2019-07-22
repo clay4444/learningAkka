@@ -15,6 +15,7 @@
         <module>SlickDB</module>
         <module>Cluster</module>
         <module>LogCluster</module>
+        <module>TestQuartz</module>
     </modules>
 
     <properties>
