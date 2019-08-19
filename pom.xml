@@ -16,6 +16,7 @@
         <module>Cluster</module>
         <module>LogCluster</module>
         <module>TestQuartz</module>
+        <module>TestExtension</module>
     </modules>
 
     <properties>
