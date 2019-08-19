@@ -23,7 +23,7 @@ object SlickDB{
     def id = column[Long]("id",O.PrimaryKey, O.AutoInc)  // make sure here is primary key and auto inc(return column needed)
     def name = column[String]("name")
     def age = column[Int]("age")
-    def * = (id,name,age) <> (UserInfo.tupled, UserInfo.unapply)
+    def * = (id,name,age) <> (UserInfo.tupled, UserInfo.unapply)  //tupled接收一个tuple，返回一个UserInfo，unapply接收一个UserInfo，返回一个Tuple
   }
 
   def slick_table = TableQuery(tag => new SlickModelTable(tag))
