@@ -7,7 +7,7 @@ object TestCaseLClassTupled extends App {
   val userLikeData = ("John","John@doe.com",33)
   val userLikeData1 = ("John","John@doe.com",33)
 
-  //tupled
+  //tupled,接收
   val user = User.tupled(userLikeData)
   val user1 = User.tupled(userLikeData1)
 
